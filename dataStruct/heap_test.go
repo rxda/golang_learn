@@ -2,6 +2,7 @@ package dataStruct
 
 import (
 	"fmt"
+	"ginwithmodule/sort/sortfunc"
 	"testing"
 )
 
@@ -45,7 +46,7 @@ func Test_heapify(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			heapify(tt.args.tree,tt.args.n,tt.args.i)
+			Heapify(tt.args.tree,tt.args.n,tt.args.i)
 			fmt.Println(tt.args.tree)
 		})
 	}
@@ -78,7 +79,7 @@ func Test_buildHead(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			buildHeap(tt.args.tree, tt.args.n)
+			sortfunc.Heapify(tt.args.tree, tt.args.n)
 			fmt.Println(tt.args.tree)
 		})
 	}

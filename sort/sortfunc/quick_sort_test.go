@@ -1,7 +1,7 @@
 package sortfunc
 
 import (
-	"math/rand"
+	"fmt"
 	"reflect"
 	"testing"
 )
@@ -27,18 +27,9 @@ func Test_quicksort(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := quick(tt.args.nums); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("quicksort() = %v, want %v", got, tt.want)
+			}else{
+				fmt.Println(got)
 			}
 		})
 	}
-}
-
-func BenchmarkIntSort(b *testing.B) {
-	//nums := make([]int,10000)
-
-	nums := rand.Perm(1000)
-	b.StartTimer()
-	for i := 0; i < b.N; i++ {
-		start(nums)
-	}
-	b.StopTimer()
 }

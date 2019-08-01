@@ -1,8 +1,12 @@
 package dataStruct
 
 type heap []int
+// left = 2*i+1
+//right = 2*i+2
+//parent = (i-1)/2
 
-func heapify(tree []int, n, i int) {
+
+func Heapify(tree []int, n, i int) {
 	//i=2,c1=5,c2=6
 	c1 := 2*i + 1
 	c2 := 2*i + 2
@@ -16,14 +20,14 @@ func heapify(tree []int, n, i int) {
 
 	if max != i{
 		tree[max], tree[i] = tree[i], tree[max]
-		heapify(tree, n , max)
+		Heapify(tree, n , max)
 	}
 }
 
-func buildHeap(tree []int, n int){
+func BuildHeap(tree []int, n int){
 	lastNode := n-1
 	parent := (lastNode-1) /2
 	for i:= parent;i>=0;i--{
-		heapify(tree,n,i)
+		Heapify(tree,n,i)
 	}
 }
