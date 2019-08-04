@@ -1,12 +1,12 @@
 package sortfunc
 
-func quick(arr []int) []int{
+func quick(arr []int) []int {
 	quickPart(arr, 0, len(arr)-1)
 	return arr
 }
 
 func quickPart(arr []int, left, right int) {
-	if left >= right{
+	if left >= right {
 		return
 	}
 	i, j := left, right
@@ -20,7 +20,7 @@ func quickPart(arr []int, left, right int) {
 			i++
 		}
 
-		if i<j {
+		if i < j {
 			arr[i], arr[j] = arr[j], arr[i]
 		}
 	}

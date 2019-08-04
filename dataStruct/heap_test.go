@@ -2,7 +2,7 @@ package dataStruct
 
 import (
 	"fmt"
-	"ginwithmodule/sort/sortfunc"
+	"golang_learn/sort/sortfunc"
 	"testing"
 )
 

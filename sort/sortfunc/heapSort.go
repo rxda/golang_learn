@@ -1,6 +1,6 @@
 package sortfunc
 
-import "ginwithmodule/dataStruct"
+import "golang_learn/dataStruct"
 
 func heapSort(arr []int) []int{
 	n := len(arr)
