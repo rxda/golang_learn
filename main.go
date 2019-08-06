@@ -1,7 +1,7 @@
 package main
 
 import (
-	"golang_learn/go/mycontainer"
+	"golang_learn/tree"
 )
 
 //
@@ -40,5 +40,6 @@ import (
 //}
 
 func main()  {
-	mycontainer.HeapLearn()
+	a := tree.BuildTree()
+	tree.LayerTravers(&a)
 }
