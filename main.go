@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 //
 //type Writer interface {
@@ -45,20 +47,38 @@ type student struct {
 	Age  int
 }
 
-var c1 = make(chan int, 1)
-var c2 = make(chan string, 1)
+const (
+	// iota=0 const=1+0=1 iota=0+1=1
+	first = 1 + iota
 
+	// iota=1 const=1+1=2 iota=1+1=2
+	second
+
+	// iota=2 const=2+2=4 iota=2+1=3
+	third = 2 + iota
+
+	// iota=3 const=2+3=5 iota=3+1=4
+	forth
+
+	// iota=4 const=2*4=8 iota=4+1=5
+	fifth = 2 * iota
+
+	// iota=5 const=2*5=10 iota=5+1=6
+	sixth
+
+	// iota=6 const=6 iota=6+1=7
+	seventh = iota
+)
+
+const (
+	a = iota
+	b
+	c
+	d = iota *2
+	e
+	f
+)
+// 1 2 4 5 8 10 6
 func main() {
-
-	c1 <- 1
-	c2 <- "hello"
-
-	select {
-
-	case v1 := <-c1:
-		fmt.Println(v1)
-
-	case v2 := <-c2:
-		panic(v2)
-	}
+	fmt.Println(a,b,c,d,e,f)
 }
