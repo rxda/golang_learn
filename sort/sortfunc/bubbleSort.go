@@ -1,7 +1,6 @@
 package sortfunc
 
 //冒泡排序
-
 func IntSort(in []int) []int {
 	length := len(in)
 
