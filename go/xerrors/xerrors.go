@@ -1,8 +1,8 @@
-package main
+package myError
 
 import (
+	"errors"
 	"fmt"
-	"golang.org/x/xerrors"
 	"os"
 	"time"
 )
@@ -26,9 +26,10 @@ func oops() error {
 
 func main() {
 	_, err := os.Open("non-existing")
+
 	if err != nil {
 		var pathError *os.PathError
-		if xerrors.As(err, &pathError) {
+		if errors.As(err, &pathError) {
 			fmt.Println("Failed at path:", pathError.Path)
 		}
 	}

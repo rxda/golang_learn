@@ -10,7 +10,7 @@ import (
 	"log"
 	"net/http"
 	)
-
+//ca = pubcert + private
 var wechatCertPath = "tls/cert.pem"
 var wechatKeyPath = "tls/key.pem"
 var wechatCAPath = "tls/ca.pem"
