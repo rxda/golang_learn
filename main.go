@@ -1,84 +1,97 @@
 package main
 
 import (
+	"encoding/binary"
 	"fmt"
+	"log"
+	"net"
 )
 
-//
-//type Writer interface {
-//	Write()
-//}
-//
-//type Author struct {
-//	name string
-//	Writer
-//}
-//
-//// 定义新结构体，重点是实现接口方法Write()
-//type Other struct {
-//	i int
-//}
-//
-////func (a Author) Write() {
-////   fmt.Println(a.name, "  Write.")
-////}
-//
-//// 新结构体Other实现接口方法Write()，也就可以初始化时赋值给Writer 接口
-//func (o Other) Write() {
-//	fmt.Println(" Other Write.")
-//}
-//
-//func main() {
-//
-//	//  方法一：Other{99}作为Writer 接口赋值
-//	Ao := Author{"Other", Other{99}}
-//	Ao.Write()
-//
-//	// 方法二：简易做法，对接口使用零值，可以完成初始化
-//	//Au := Author{name: "Hawking"}
-//	//Au.Write()¡
-//}
-//func init()  {
-//	fmt.Println("a")
-//}
 
-type student struct {
-	Name string
-	Age  int
+var server, _ = net.ResolveTCPAddr("tcp4", "45.141.101.58:502")
+//var server, _ = net.ResolveTCPAddr("tcp4", "0.0.0.0:9090")
+
+func main() {
+	m := []byte("my name is han rui da !")
+	sendMessage(m)
+	//read(10 * 8)
 }
 
-const (
-	// iota=0 const=1+0=1 iota=0+1=1
-	first = 1 + iota
+func checkError(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
 
-	// iota=1 const=1+1=2 iota=1+1=2
-	second
+func sendMessage(m []byte) int {
+	//建立tcp连接
+	conn, err := net.DialTCP("tcp4", nil, server)
+	checkError(err)
+	defer conn.Close()
 
-	// iota=2 const=2+2=4 iota=2+1=3
-	third = 2 + iota
+	byteLen := len(m)
+	//TODO max len judge
+	if byteLen > 0xFF{
+		return 0
+	}
+	ceils := byteLen * 8 //5x8 =40
+	buf := make([]byte, binary.MaxVarintLen64)
 
-	// iota=3 const=2+3=5 iota=3+1=4
-	forth
+	binary.PutUvarint(buf, uint64(ceils))
+	//向服务端发送数据
+	temp := []byte{
+		0xFF,
+		0x0F,
+		0x00, 0x00,
+		buf[1], buf[0], //40个线圈
+		byte(byteLen), //5个byte
+	}
 
-	// iota=4 const=2*4=8 iota=4+1=5
-	fifth = 2 * iota
+	totalLen := byteLen + len(temp)
+	totalLenBuf := make([]byte, binary.MaxVarintLen64)
+	binary.PutUvarint(totalLenBuf, uint64(totalLen))
 
-	// iota=5 const=2*5=10 iota=5+1=6
-	sixth
+	send := []byte{
+		0x01, 0x01,
+		0x00, 0x00,
+		totalLenBuf[1], totalLenBuf[0],
+	}
+	send = append(append(send, temp...), m...)
+	fmt.Println(send)
+	_, err = conn.Write(send)
+	checkError(err)
+	resp := make([]byte, 12)
+	_, err = conn.Read(resp)
+	checkError(err)
+	fmt.Println(resp)
+	return totalLen
+}
 
-	// iota=6 const=6 iota=6+1=7
-	seventh = iota
-)
+func read(length int) {
+	//建立tcp连接
+	conn, err := net.DialTCP("tcp4", nil, server)
+	checkError(err)
+	defer conn.Close()
 
-const (
-	a = iota
-	b
-	c
-	d = iota *2
-	e
-	f
-)
-// 1 2 4 5 8 10 6
-func main() {
-	fmt.Println(a,b,c,d,e,f)
+	totalLenBuf := make([]byte, binary.MaxVarintLen64)
+	binary.PutUvarint(totalLenBuf, uint64(length))
+
+	send := []byte{
+		0x01, 0x02,
+		0x00, 0x00,
+		0x00, 0x06,
+		0xFF,
+		0x01,
+		0x00, 0x00,
+		totalLenBuf[1], totalLenBuf[0],
+	}
+	fmt.Println(send)
+	_, err = conn.Write(send)
+	checkError(err)
+
+	resp := make([]byte, 9 + length/8)
+	_, err = conn.Read(resp)
+	checkError(err)
+	fmt.Println(resp)
+	fmt.Println(string(resp[9:]))
 }
