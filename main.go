@@ -34,16 +34,19 @@ func sendMessage(m []byte) int {
 	if byteLen > 0xFF{
 		return 0
 	}
-	ceils := byteLen * 8 //5x8 =40
+	ceils := byteLen
+	if byteLen% 2 !=0 {
+		ceils ++
+	}//5/2 = 2 +1 =3
 	buf := make([]byte, binary.MaxVarintLen64)
 
 	binary.PutUvarint(buf, uint64(ceils))
 	//向服务端发送数据
 	temp := []byte{
 		0xFF,
-		0x0F,
+		0x10,  // 功能码
 		0x00, 0x00,
-		buf[1], buf[0], //40个线圈
+		buf[1], buf[0], // 多少个 byte
 		byte(byteLen), //5个byte
 	}
 
