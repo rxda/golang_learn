@@ -7,8 +7,7 @@ import (
 	"net"
 )
 
-
-var server, _ = net.ResolveTCPAddr("tcp4", "45.141.101.58:502")
+var server, _ = net.ResolveTCPAddr("tcp4", "127.0.0.1:502")
 //var server, _ = net.ResolveTCPAddr("tcp4", "0.0.0.0:9090")
 
 func main() {
@@ -98,3 +97,4 @@ func read(length int) {
 	fmt.Println(resp)
 	fmt.Println(string(resp[9:]))
 }
+

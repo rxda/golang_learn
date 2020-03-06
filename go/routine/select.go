@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 //select
 func fibonacci(c, quit chan int) {
@@ -17,14 +20,28 @@ func fibonacci(c, quit chan int) {
 }
 
 func main() {
-	c := make(chan int)
-	quit := make(chan int)
+	//c := make(chan int)
+	//quit := make(chan int)
+	//go func() {
+	//	for i := 0; i < 10; i++ {
+	//		fmt.Println(<-c)
+	//	}
+	//	quit <- 0
+	//}()
+	//fibonacci(c, quit)
+	returningo()
+}
+
+
+func returningo(){
 	go func() {
-		for i := 0; i < 10; i++ {
-			fmt.Println(<-c)
-		}
-		quit <- 0
+		time.Sleep(3)
+		fmt.Println("child")
+		return
 	}()
-	fibonacci(c, quit)
+	time.Sleep(5)
+	fmt.Println("main")
+	fmt.Println("main")
+	fmt.Println("main")
 }
 
