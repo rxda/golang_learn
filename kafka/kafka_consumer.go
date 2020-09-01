@@ -10,7 +10,7 @@ func consume(){
 	topic := "topic-ol-iot-env-data"
 	partition := 0
 
-	conn, err := kafka.DialLeader(context.Background(), "tcp", "127.0.0.1:32768", topic, partition)
+	conn, err := kafka.DialLeader(context.Background(), "tcp", "172.17.3.24:9092,172.17.3.22:9092,172.17.3.23:9092", topic, partition)
 	if err != nil{
 		panic(err)
 	}
