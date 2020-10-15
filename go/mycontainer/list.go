@@ -14,7 +14,7 @@ func listLearn(){
 	l.InsertAfter(2, e1)// 1 2 3 4
 
 	// Iterate through list and print its contents.
-	//loop e = e.Next()
+	//loop e = e.next()
 	for e := l.Front(); e != nil; e = e.Next() {
 		fmt.Println(e.Value)
 	}
